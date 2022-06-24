@@ -21,10 +21,16 @@ import java.util.Date;
 public class BaseEntity {
 
 
+    /**
+     * 创建日期
+     */
     @JsonIgnore
     @CreatedDate
     @Column(name = "create_time", unique = true)
     private Date createDate;
+    /**
+     * 修改日期
+     */
     @JsonIgnore
     @Column(name = "update_time", unique = true)
     @LastModifiedDate

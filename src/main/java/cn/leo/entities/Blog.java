@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -22,8 +22,69 @@ public class Blog extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /**
+     * 博客标题
+     */
     @Column(name = "title")
     private String title;
+
+    /**
+     * 博客首图
+     */
+    @Column(name = "first_picture")
+    private String firstPicture;
+    /**
+     * 博客标签
+     */
+    @OneToMany(mappedBy = "blog", orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Tag> tags = new LinkedHashSet<>();
+    /**
+     * 博客类型
+     */
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "type_id")
+    private Type type;
+    /**
+     * 浏览次数
+     */
+    @Column(name = "views")
+    private Integer views;
+
+    /**
+     * 赞赏开启 false不开启
+     */
+    @Column(name = "appreciate")
+    private Boolean appreciate = false;
+
+    /**
+     * 版权开启 false可以转载
+     */
+    @Column(name = "copyright")
+    private Boolean copyright = false;
+    /**
+     * 评论开启 false 不开启
+     */
+    @Column(name = "comment")
+    private Boolean comment = false;
+    /**
+     * 是否发布
+     */
+    @Column(name = "publish")
+    private Boolean publish = false;
+
+    /**
+     * 正文
+     */
+    @OneToOne(orphanRemoval = true)
+    @JoinColumn(name = "content_id")
+    private Content content;
+
+    /**
+     * 评论
+     */
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -37,4 +98,5 @@ public class Blog extends BaseEntity {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }
