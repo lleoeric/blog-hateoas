@@ -1,0 +1,2 @@
+# blog-hateoas
+这是一个通过springboot和spring hateoas来实现的一个纯hal风格的项目
