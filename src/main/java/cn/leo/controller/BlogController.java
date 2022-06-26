@@ -67,7 +67,7 @@ public class BlogController {
                 .map(blog -> {
                     BeanUtils.copyProperties(newBlog, blog);
                     return blogRepository.save(blog);
-                }) //
+                })
                 .orElseGet(() -> {
                     newBlog.setId(id);
                     return blogRepository.save(newBlog);
