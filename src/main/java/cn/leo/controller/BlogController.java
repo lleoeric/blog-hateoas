@@ -43,11 +43,11 @@ public class BlogController {
     @GetMapping("/blogs")
     public CollectionModel<EntityModel<Blog>> all() {
 
-        List<EntityModel<Blog>> employees = blogRepository.findAll().stream() //
+        List<EntityModel<Blog>> blogs = blogRepository.findAll().stream() //
                 .map(blogModelAssembler::toModel) //
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(employees, linkTo(methodOn(BlogController.class).all()).withSelfRel());
+        return CollectionModel.of(blogs, linkTo(methodOn(BlogController.class).all()).withSelfRel());
     }
 
     @PostMapping("/blogs")
