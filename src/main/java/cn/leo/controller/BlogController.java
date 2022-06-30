@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@RestController("blogs")
+@RestController
 public class BlogController {
     private final BlogRepository blogRepository;
     private final BlogService blogService;
@@ -30,7 +30,7 @@ public class BlogController {
         this.blogRepository = blogRepository;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/blogs/{id}")
     public EntityModel<Blog> one(@PathVariable Integer id) {
 
         Blog employee = blogRepository.findById(id) //
@@ -40,7 +40,7 @@ public class BlogController {
 
     }
 
-    @GetMapping
+    @GetMapping("/blogs")
     public CollectionModel<EntityModel<Blog>> all() {
 
         List<EntityModel<Blog>> blogs = blogRepository.findAll().stream() //
@@ -52,7 +52,7 @@ public class BlogController {
                         .all()).withSelfRel());
     }
 
-    @PostMapping
+    @PostMapping("/blogs")
     ResponseEntity<?> newBlog(@RequestBody Blog newEmployee) {
 
         EntityModel<Blog> entityModel = blogModelAssembler.toModel(blogRepository.save(newEmployee));
@@ -62,7 +62,7 @@ public class BlogController {
                 .body(entityModel);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/blogs/{id}")
     ResponseEntity<?> replaceBlog(@RequestBody Blog newBlog, @PathVariable Integer id) {
 
         Blog updatedBlog = blogRepository.findById(id) //

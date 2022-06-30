@@ -1,10 +1,13 @@
 package cn.leo.entities;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,8 +21,16 @@ public class Type extends BaseEntity {
     private Integer id;
 
     @Column(name = "type")
+    @NotNull
     private String type;
 
+    @OneToMany(mappedBy = "type", orphanRemoval = true)
+    @NotNull
+    private Set<Blog> blogs = new LinkedHashSet<>();
+
+    /*
+    * 博客
+     */
 
     @Override
     public boolean equals(Object o) {

@@ -1,10 +1,13 @@
 package cn.leo.entities;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,19 +21,12 @@ public class Tag extends BaseEntity {
     private Integer id;
 
     @Column(name = "tag")
+    @NotNull
     private String tag;
 
-    @ManyToOne
-    @JoinColumn(name = "blog_id")
-    private Blog blog;
-
-    public Blog getBlog() {
-        return blog;
-    }
-
-    public void setBlog(Blog blog) {
-        this.blog = blog;
-    }
+/*
+    博客
+     */
 
     @Override
     public boolean equals(Object o) {

@@ -1,5 +1,6 @@
 package cn.leo.entities;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -24,6 +25,7 @@ public class Content extends BaseEntity {
      */
     @Lob
     @Column(name = "content")
+    @NotNull
     private String content;
 
     @Override

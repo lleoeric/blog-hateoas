@@ -1,5 +1,6 @@
 package cn.leo.entities;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -19,38 +20,17 @@ public class Comment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * 昵称
-     */
-    @Column(name = "nickname")
-    private String nickname;
-    /**
-     * ip
-     */
-    @Column(name = "user_ip")
-    private String userIp;
-    /**
-     * 头像
-     */
-    @Column(name = "avatar")
-    private String avatar;
-    /**
-     * 评论内容
-     */
-    @Column(name = "content")
-    private String content;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Comment parent_id;
+
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new LinkedHashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "blog_id")
+    @NotNull
     private Blog blog;
-
-    @ManyToOne
-    @JoinColumn(name = "comment_id")
-    private Comment comment;
-
-    @OneToMany(mappedBy = "comment", orphanRemoval = true)
-    @ToString.Exclude
-    private Set<Comment> comments = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {
