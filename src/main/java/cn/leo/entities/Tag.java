@@ -1,10 +1,15 @@
 package cn.leo.entities;
 
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Entity
 @Table(name = "tag")
 public class Tag extends BaseEntity {

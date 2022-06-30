@@ -1,18 +1,20 @@
 package cn.leo.controller.assembler;
 
 import cn.leo.controller.TagController;
+import cn.leo.controller.TypeController;
 import cn.leo.entities.Tag;
+import cn.leo.entities.Type;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-public class TagModelAssembler implements RepresentationModelAssembler<Tag, EntityModel<Tag>> {
+public class TypeModelAssembler implements RepresentationModelAssembler<Type, EntityModel<Type>> {
     @Override
-    public EntityModel<Tag> toModel(Tag entity) {
+    public EntityModel<Type> toModel(Type entity) {
         return EntityModel.of(entity,
-                linkTo(methodOn(TagController.class).one(entity.getId())).withSelfRel(),
-                linkTo(methodOn(TagController.class).all()).withRel("tags"));
+                linkTo(methodOn(TypeController.class).one(entity.getId())).withSelfRel(),
+                linkTo(methodOn(TypeController.class).all()).withRel("types"));
     }
 }

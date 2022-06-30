@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@RestController
+@RestController("blogs")
 public class BlogController {
     private final BlogRepository blogRepository;
     private final BlogService blogService;
@@ -30,7 +30,7 @@ public class BlogController {
         this.blogRepository = blogRepository;
     }
 
-    @GetMapping("/blogs/{id}")
+    @GetMapping("/{id}")
     public EntityModel<Blog> one(@PathVariable Integer id) {
 
         Blog employee = blogRepository.findById(id) //
@@ -40,7 +40,7 @@ public class BlogController {
 
     }
 
-    @GetMapping("/blogs")
+    @GetMapping
     public CollectionModel<EntityModel<Blog>> all() {
 
         List<EntityModel<Blog>> blogs = blogRepository.findAll().stream() //
@@ -50,8 +50,8 @@ public class BlogController {
         return CollectionModel.of(blogs, linkTo(methodOn(BlogController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/blogs")
-    ResponseEntity<?> newEmployee(@RequestBody Blog newEmployee) {
+    @PostMapping
+    ResponseEntity<?> newBlog(@RequestBody Blog newEmployee) {
 
         EntityModel<Blog> entityModel = blogModelAssembler.toModel(blogRepository.save(newEmployee));
 
@@ -60,10 +60,10 @@ public class BlogController {
                 .body(entityModel);
     }
 
-    @PutMapping("/blogs/{id}")
-    ResponseEntity<?> replaceEmployee(@RequestBody Blog newBlog, @PathVariable Integer id) {
+    @PutMapping("/{id}")
+    ResponseEntity<?> replaceBlog(@RequestBody Blog newBlog, @PathVariable Integer id) {
 
-        Blog updatedEmployee = blogRepository.findById(id) //
+        Blog updatedBlog = blogRepository.findById(id) //
                 .map(blog -> {
                     BeanUtils.copyProperties(newBlog, blog);
                     return blogRepository.save(blog);
@@ -73,7 +73,7 @@ public class BlogController {
                     return blogRepository.save(newBlog);
                 });
 
-        EntityModel<Blog> entityModel = blogModelAssembler.toModel(updatedEmployee);
+        EntityModel<Blog> entityModel = blogModelAssembler.toModel(updatedBlog);
 
         return ResponseEntity //
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
