@@ -20,6 +20,7 @@ public class Type extends BaseEntity {
     @Column(name = "type")
     private String type;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

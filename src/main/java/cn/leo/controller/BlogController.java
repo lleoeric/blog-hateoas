@@ -47,7 +47,9 @@ public class BlogController {
                 .map(blogModelAssembler::toModel) //
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(blogs, linkTo(methodOn(BlogController.class).all()).withSelfRel());
+        return CollectionModel.of(blogs,
+                linkTo(methodOn(BlogController.class)
+                        .all()).withSelfRel());
     }
 
     @PostMapping

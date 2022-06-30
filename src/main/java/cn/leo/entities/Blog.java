@@ -65,26 +65,39 @@ public class Blog extends BaseEntity {
     /**
      * 评论开启 false 不开启
      */
-    @Column(name = "comment")
-    private Boolean comment = false;
+    @Column(name = "comment_show")
+    private Boolean commentShow = false;
     /**
      * 是否发布
      */
     @Column(name = "publish")
     private Boolean publish = false;
 
-    /**
-     * 正文
-     */
-    @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "content_id")
-    private Content content;
+
+
 
     /**
      * 评论
      */
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
     private Set<Comment> comments = new LinkedHashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "content_id")
+    private Content content;
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "content_id")
+    private Content content_id;
 
     @Override
     public boolean equals(Object o) {

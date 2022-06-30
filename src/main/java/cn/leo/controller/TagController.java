@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@RestController("tags")
+@RestController
 public class TagController {
     private final TagRepository tagRepository;
     private final TagService tagService;
@@ -33,20 +33,23 @@ public class TagController {
         this.tagModelAssembler = tagModelAssembler;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/tags/{id}")
     public EntityModel<Tag> one(@PathVariable Integer id) {
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new TagNotFoundException(id));
         return tagModelAssembler.toModel(tag);
     }
-    @GetMapping
+    @GetMapping("/tags")
     public CollectionModel<EntityModel<Tag>> all(){
-        List<EntityModel<Tag>> tags = tagRepository.findAll().stream()
+        List<EntityModel<Tag>> tags =
+                tagRepository.findAll().stream()
                 .map(tagModelAssembler::toModel)
                 .collect(Collectors.toList());
-        return CollectionModel.of(tags,linkTo(methodOn(TagController.class).all()).withSelfRel());
+        return CollectionModel.of(tags,
+                linkTo(methodOn(TagController.class)
+                        .all()).withSelfRel());
     }
-    @PostMapping
+    @PostMapping("/tags")
     ResponseEntity<?> newBlog(@RequestBody Tag newEmployee) {
 
         EntityModel<Tag> entityModel = tagModelAssembler.toModel(tagRepository.save(newEmployee));
@@ -56,7 +59,7 @@ public class TagController {
                 .body(entityModel);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/tags/{id}")
     ResponseEntity<?> replaceBlog(@RequestBody Tag newTag, @PathVariable Integer id) {
 
         Tag updatedTag = tagRepository.findById(id) //

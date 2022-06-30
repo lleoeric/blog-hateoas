@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@RestController("comment")
+@RestController
 public class CommentController {
     private final CommentRepository commentRepository;
     private final CommentService commentService;
@@ -32,7 +32,7 @@ public class CommentController {
         this.commentRepository = commentRepository;
     }
 
-    @GetMapping("/blogs/{id}")
+    @GetMapping("/comments/{id}")
     public EntityModel<Comment> one(@PathVariable Integer id) {
 
         Comment employee = commentRepository.findById(id) //
@@ -42,7 +42,7 @@ public class CommentController {
 
     }
 
-    @GetMapping("/blogs")
+    @GetMapping("/comments")
     public CollectionModel<EntityModel<Comment>> all() {
 
         List<EntityModel<Comment>> employees = commentRepository.findAll().stream() //
@@ -52,7 +52,7 @@ public class CommentController {
         return CollectionModel.of(employees, linkTo(methodOn(CommentController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/blogs")
+    @PostMapping("/comments")
     ResponseEntity<?> newEmployee(@RequestBody Comment newComment) {
 
         EntityModel<Comment> entityModel = commentModelAssembler.toModel(commentRepository.save(newComment));
@@ -62,7 +62,7 @@ public class CommentController {
                 .body(entityModel);
     }
 
-    @PutMapping("/blogs/{id}")
+    @PutMapping("/comments/{id}")
     ResponseEntity<?> replaceEmployee(@RequestBody Comment newBlog, @PathVariable Integer id) {
 
         Comment updatedEmployee = commentRepository.findById(id) //

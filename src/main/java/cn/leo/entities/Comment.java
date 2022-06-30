@@ -4,7 +4,9 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -41,6 +43,14 @@ public class Comment extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "blog_id")
     private Blog blog;
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
+    @OneToMany(mappedBy = "comment", orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Comment> comments = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {

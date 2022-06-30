@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-@RestController("types")
+@RestController
 public class TypeController {
     private final TypeRepository typeRepository;
     private final TypeService typeService;
@@ -36,20 +36,20 @@ public class TypeController {
         this.typeModelAssembler = typeModelAssembler;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/types/{id}")
     public EntityModel<Type> one(@PathVariable Integer id) {
         Type tag = typeRepository.findById(id)
                 .orElseThrow(() -> new TagNotFoundException(id));
         return typeModelAssembler.toModel(tag);
     }
-    @GetMapping
+    @GetMapping("/types")
     public CollectionModel<EntityModel<Type>> all(){
         List<EntityModel<Type>> tags = typeRepository.findAll().stream()
                 .map(typeModelAssembler::toModel)
                 .collect(Collectors.toList());
         return CollectionModel.of(tags,linkTo(methodOn(TypeController.class).all()).withSelfRel());
     }
-    @PostMapping
+    @PostMapping("/types")
     ResponseEntity<?> newType(@RequestBody Type newType) {
 
         EntityModel<Type> entityModel = typeModelAssembler.toModel(typeRepository.save(newType));
@@ -59,7 +59,7 @@ public class TypeController {
                 .body(entityModel);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/types/{id}")
     ResponseEntity<?> replaceType(@RequestBody Type newType, @PathVariable Integer id) {
 
         Type updatedType = typeRepository.findById(id) //
