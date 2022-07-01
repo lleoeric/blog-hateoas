@@ -11,7 +11,8 @@ import java.util.*;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "blog")
 @JsonFormat
