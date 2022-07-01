@@ -1,6 +1,6 @@
-package cn.leo.service.impl;
+package cn.leo.service.domain.impl;
 
-import cn.leo.service.UserService;
+import cn.leo.service.domain.UserService;
 import org.springframework.stereotype.Service;
 
 @Service

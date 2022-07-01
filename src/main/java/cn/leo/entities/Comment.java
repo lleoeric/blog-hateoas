@@ -12,7 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "comment")
 public class Comment extends BaseEntity {
@@ -20,17 +21,23 @@ public class Comment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Comment parent_id;
+    @Column(name = "content")
+    private String content;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Comment> comments = new LinkedHashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "blog_id")
     @NotNull
     private Blog blog;
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Set<Comment> comments = new LinkedHashSet<>();
+
 
     @Override
     public boolean equals(Object o) {

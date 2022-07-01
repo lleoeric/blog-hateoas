@@ -1,11 +1,10 @@
 package cn.leo.controller;
 
 import cn.leo.controller.assembler.TagModelAssembler;
-import cn.leo.entities.Blog;
 import cn.leo.entities.Tag;
 import cn.leo.exception.TagNotFoundException;
 import cn.leo.repository.TagRepository;
-import cn.leo.service.TagService;
+import cn.leo.service.domain.TagService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

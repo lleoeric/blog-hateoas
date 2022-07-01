@@ -4,7 +4,7 @@ import cn.leo.controller.assembler.BlogModelAssembler;
 import cn.leo.entities.Blog;
 import cn.leo.exception.BlogNotFoundException;
 import cn.leo.repository.BlogRepository;
-import cn.leo.service.BlogService;
+import cn.leo.service.domain.BlogService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -35,7 +35,7 @@ public class BlogController {
 
         Blog employee = blogRepository.findById(id) //
                 .orElseThrow(() -> new BlogNotFoundException(id));
-
+        System.out.println(employee);
         return blogModelAssembler.toModel(employee);
 
     }

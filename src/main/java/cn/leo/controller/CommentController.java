@@ -4,7 +4,7 @@ import cn.leo.controller.assembler.CommentModelAssembler;
 import cn.leo.entities.Comment;
 import cn.leo.exception.CommentNotFoundException;
 import cn.leo.repository.CommentRepository;
-import cn.leo.service.CommentService;
+import cn.leo.service.domain.CommentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -57,6 +57,15 @@ public class CommentController {
 
         EntityModel<Comment> entityModel = commentModelAssembler.toModel(commentRepository.save(newComment));
 
+        return ResponseEntity //
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                .body(entityModel);
+    }
+
+    @PostMapping("/comments/{id}")
+    ResponseEntity<?> newChildComments(@PathVariable Integer id, @RequestBody Comment newChildComment) {
+        Comment newComment = commentService.saveChildComment(id, newChildComment);
+        EntityModel<Comment> entityModel = commentModelAssembler.toModel(newComment);
         return ResponseEntity //
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
                 .body(entityModel);

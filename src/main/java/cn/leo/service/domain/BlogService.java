@@ -1,4 +1,4 @@
-package cn.leo.service;
+package cn.leo.service.domain;
 
 public interface BlogService {
 }

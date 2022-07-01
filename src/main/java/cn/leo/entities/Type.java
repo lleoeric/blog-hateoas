@@ -12,7 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "type")
 public class Type extends BaseEntity {
@@ -26,6 +27,7 @@ public class Type extends BaseEntity {
 
     @OneToMany(mappedBy = "type", orphanRemoval = true)
     @NotNull
+    @ToString.Exclude
     private Set<Blog> blogs = new LinkedHashSet<>();
 
     /*
