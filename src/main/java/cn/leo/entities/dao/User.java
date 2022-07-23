@@ -1,5 +1,6 @@
-package cn.leo.entities;
+package cn.leo.entities.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -23,6 +24,7 @@ public class User extends BaseEntity {
      * id
      */
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -36,6 +38,7 @@ public class User extends BaseEntity {
      * 密码
      */
     @NotNull
+    @JsonIgnore
     @Column(name = "password")
     private String password;
     /**
@@ -50,6 +53,7 @@ public class User extends BaseEntity {
     @Column(name = "avatar")
     private String avatar;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     @ToString.Exclude
     private Set<Blog> blogs = new LinkedHashSet<>();

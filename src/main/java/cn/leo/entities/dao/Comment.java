@@ -1,5 +1,6 @@
-package cn.leo.entities;
+package cn.leo.entities.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Table(name = "comment")
 public class Comment extends BaseEntity {
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -25,6 +27,7 @@ public class Comment extends BaseEntity {
     private String content;
 
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "blog_id")
     @NotNull
@@ -34,6 +37,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "comment_id")
     private Comment comment;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private Set<Comment> comments = new LinkedHashSet<>();

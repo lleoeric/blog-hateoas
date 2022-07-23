@@ -1,7 +1,7 @@
 package cn.leo.controller;
 
-import cn.leo.controller.assembler.CommentModelAssembler;
-import cn.leo.entities.Comment;
+import cn.leo.assembler.CommentModelAssembler;
+import cn.leo.entities.dao.Comment;
 import cn.leo.exception.CommentNotFoundException;
 import cn.leo.repository.CommentRepository;
 import cn.leo.service.domain.CommentService;
@@ -19,6 +19,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping("/comments")
+@CrossOrigin()
 public class CommentController {
     private final CommentRepository commentRepository;
     private final CommentService commentService;
@@ -32,7 +34,7 @@ public class CommentController {
         this.commentRepository = commentRepository;
     }
 
-    @GetMapping("/comments/{id}")
+    @GetMapping("/{id}")
     public EntityModel<Comment> one(@PathVariable Integer id) {
 
         Comment employee = commentRepository.findById(id) //
@@ -42,7 +44,7 @@ public class CommentController {
 
     }
 
-    @GetMapping("/comments")
+    @GetMapping
     public CollectionModel<EntityModel<Comment>> all() {
 
         List<EntityModel<Comment>> employees = commentRepository.findAll().stream() //
@@ -52,7 +54,7 @@ public class CommentController {
         return CollectionModel.of(employees, linkTo(methodOn(CommentController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/comments")
+    @PostMapping
     ResponseEntity<?> newEmployee(@RequestBody Comment newComment) {
 
         EntityModel<Comment> entityModel = commentModelAssembler.toModel(commentRepository.save(newComment));
@@ -62,7 +64,7 @@ public class CommentController {
                 .body(entityModel);
     }
 
-    @PostMapping("/comments/{id}")
+    @PostMapping("/{id}")
     ResponseEntity<?> newChildComments(@PathVariable Integer id, @RequestBody Comment newChildComment) {
         Comment newComment = commentService.saveChildComment(id, newChildComment);
         EntityModel<Comment> entityModel = commentModelAssembler.toModel(newComment);
@@ -71,7 +73,7 @@ public class CommentController {
                 .body(entityModel);
     }
 
-    @PutMapping("/comments/{id}")
+    @PutMapping("/{id}")
     ResponseEntity<?> replaceEmployee(@RequestBody Comment newBlog, @PathVariable Integer id) {
 
         Comment updatedEmployee = commentRepository.findById(id) //

@@ -1,10 +1,7 @@
-package cn.leo.controller.assembler;
+package cn.leo.assembler;
 
-import cn.leo.controller.TagController;
 import cn.leo.controller.TypeController;
-import cn.leo.entities.Tag;
-import cn.leo.entities.Type;
-import org.springframework.context.annotation.Configuration;
+import cn.leo.entities.dao.Type;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;

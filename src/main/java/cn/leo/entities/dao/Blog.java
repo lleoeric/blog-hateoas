@@ -1,6 +1,7 @@
-package cn.leo.entities;
+package cn.leo.entities.dao;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -21,6 +22,7 @@ public class Blog extends BaseEntity {
      * id
      */
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -87,18 +89,21 @@ public class Blog extends BaseEntity {
     /*
         标签
          */
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "blog_tags",
             joinColumns = @JoinColumn(name = "blogs_id"),
             inverseJoinColumns = @JoinColumn(name = "tags_id"))
     @ToString.Exclude
     private Set<Tag> tags = new LinkedHashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "content_id")
     private Content content;
 
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Comment> comments = new LinkedHashSet<>();
 

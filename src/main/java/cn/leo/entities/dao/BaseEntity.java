@@ -1,4 +1,4 @@
-package cn.leo.entities;
+package cn.leo.entities.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;

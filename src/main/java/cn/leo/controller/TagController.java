@@ -1,7 +1,7 @@
 package cn.leo.controller;
 
-import cn.leo.controller.assembler.TagModelAssembler;
-import cn.leo.entities.Tag;
+import cn.leo.assembler.TagModelAssembler;
+import cn.leo.entities.dao.Tag;
 import cn.leo.exception.TagNotFoundException;
 import cn.leo.repository.TagRepository;
 import cn.leo.service.domain.TagService;
@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
+@RequestMapping("/tags")
+@CrossOrigin()
 @RestController
 public class TagController {
     private final TagRepository tagRepository;
@@ -32,13 +33,13 @@ public class TagController {
         this.tagModelAssembler = tagModelAssembler;
     }
 
-    @GetMapping("/tags/{id}")
+    @GetMapping("/{id}")
     public EntityModel<Tag> one(@PathVariable Integer id) {
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new TagNotFoundException(id));
         return tagModelAssembler.toModel(tag);
     }
-    @GetMapping("/tags")
+    @GetMapping
     public CollectionModel<EntityModel<Tag>> all(){
         List<EntityModel<Tag>> tags =
                 tagRepository.findAll().stream()
@@ -48,7 +49,7 @@ public class TagController {
                 linkTo(methodOn(TagController.class)
                         .all()).withSelfRel());
     }
-    @PostMapping("/tags")
+    @PostMapping
     ResponseEntity<?> newBlog(@RequestBody Tag newEmployee) {
 
         EntityModel<Tag> entityModel = tagModelAssembler.toModel(tagRepository.save(newEmployee));
@@ -58,7 +59,7 @@ public class TagController {
                 .body(entityModel);
     }
 
-    @PutMapping("/tags/{id}")
+    @PutMapping("/{id}")
     ResponseEntity<?> replaceBlog(@RequestBody Tag newTag, @PathVariable Integer id) {
 
         Tag updatedTag = tagRepository.findById(id) //

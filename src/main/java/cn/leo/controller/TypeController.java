@@ -1,7 +1,7 @@
 package cn.leo.controller;
 
-import cn.leo.controller.assembler.TypeModelAssembler;
-import cn.leo.entities.Type;
+import cn.leo.assembler.TypeModelAssembler;
+import cn.leo.entities.dao.Type;
 import cn.leo.exception.TagNotFoundException;
 import cn.leo.repository.TypeRepository;
 import cn.leo.service.domain.TypeService;
@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
+@RequestMapping("/types")
+@CrossOrigin()
 @RestController
 public class TypeController {
     private final TypeRepository typeRepository;
@@ -32,20 +33,20 @@ public class TypeController {
         this.typeModelAssembler = typeModelAssembler;
     }
 
-    @GetMapping("/types/{id}")
+    @GetMapping("/{id}")
     public EntityModel<Type> one(@PathVariable Integer id) {
         Type tag = typeRepository.findById(id)
                 .orElseThrow(() -> new TagNotFoundException(id));
         return typeModelAssembler.toModel(tag);
     }
-    @GetMapping("/types")
+    @GetMapping
     public CollectionModel<EntityModel<Type>> all(){
         List<EntityModel<Type>> tags = typeRepository.findAll().stream()
                 .map(typeModelAssembler::toModel)
                 .collect(Collectors.toList());
         return CollectionModel.of(tags,linkTo(methodOn(TypeController.class).all()).withSelfRel());
     }
-    @PostMapping("/types")
+    @PostMapping
     ResponseEntity<?> newType(@RequestBody Type newType) {
 
         EntityModel<Type> entityModel = typeModelAssembler.toModel(typeRepository.save(newType));
@@ -55,7 +56,7 @@ public class TypeController {
                 .body(entityModel);
     }
 
-    @PutMapping("/types/{id}")
+    @PutMapping("/{id}")
     ResponseEntity<?> replaceType(@RequestBody Type newType, @PathVariable Integer id) {
 
         Type updatedType = typeRepository.findById(id) //

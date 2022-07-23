@@ -1,4 +1,9 @@
 package cn.leo.service.domain;
 
-public interface BlogService {
+import cn.leo.entities.dao.Tag;
+
+import java.util.List;
+
+public interface BlogService{
+    List<Tag> findTagsById(Integer id);
 }

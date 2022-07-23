@@ -1,6 +1,6 @@
 package cn.leo.repository;
 
-import cn.leo.entities.Comment;
+import cn.leo.entities.dao.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

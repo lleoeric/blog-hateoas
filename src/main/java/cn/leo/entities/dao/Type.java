@@ -1,5 +1,6 @@
-package cn.leo.entities;
+package cn.leo.entities.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Table(name = "type")
 public class Type extends BaseEntity {
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -25,6 +27,7 @@ public class Type extends BaseEntity {
     @NotNull
     private String type;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "type", orphanRemoval = true)
     @NotNull
     @ToString.Exclude

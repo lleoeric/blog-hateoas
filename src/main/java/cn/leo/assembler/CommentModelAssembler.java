@@ -1,9 +1,7 @@
-package cn.leo.controller.assembler;
+package cn.leo.assembler;
 
-import cn.leo.controller.BlogController;
 import cn.leo.controller.CommentController;
-import cn.leo.entities.Blog;
-import cn.leo.entities.Comment;
+import cn.leo.entities.dao.Comment;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
